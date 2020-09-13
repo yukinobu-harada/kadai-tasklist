@@ -1,0 +1,11 @@
+<h1>タスクリスト一覧</h1>
+
+<ul>
+  <%# indexアクションTask.allで取得した@tasksを繰り返しtaskで取り出し表示 %>
+  <% @tasks.each do |task| %>
+    <%# link_to 表示文字列task.id リンク先task %>
+    <li><%= link_to task.id, task %> : <%= task.content %></li>
+  <% end %>
+</ul>
+
+<%= link_to '新規タスクの投稿', new_task_path %>
