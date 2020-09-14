@@ -1,10 +1,10 @@
 class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update, :destroy]
   def index
     @tasks = Task.all
   end
   
   def show
-    @task = Task.find(params[:id])
   end
   
   def new
@@ -28,12 +28,9 @@ class TasksController < ApplicationController
   end
   
   def edit
-    @task = Task.find(params[:id])
   end
   
   def update
-    @task = Task.find(params[:id])
-    
     if @task.update(task_params)
       flash[:success] = 'タスクは正常に更新されました'
       redirect_to @task
@@ -44,7 +41,6 @@ class TasksController < ApplicationController
   end
   
   def destroy
-    @task = Task.find(params[:id])
     @task.destroy
     
     flash[:success] = 'タスクは正常に削除されました'
@@ -54,10 +50,14 @@ class TasksController < ApplicationController
   #privateでアクションではなく、このクラス内での使用を明示
   private
   
+  def set_task
+    @task = Task.find(params[:id])
+  end
+  
   #Strong Parameter セキュリティ対策 送信されてきたデータのフィルタリング
   def task_params
     #params.require(:task)でTaskモデルのフォームからのデータと明示
     #.permit(:content)で必要なカラムだけを選択
-    params.require(:task).permit(:content)
+    params.require(:task).permit(:content, :status)
   end
 end
