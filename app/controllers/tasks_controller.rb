@@ -1,6 +1,5 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
-  before_action :set_task, only: [:edit, :update, :destroy]
   before_action :correct_user, only: [:show, :update, :destroy]
   
   def index
@@ -31,6 +30,7 @@ class TasksController < ApplicationController
   end
   
   def edit
+    @task = current_user.tasks.find(params[:id])
   end
   
   def update
@@ -52,10 +52,6 @@ class TasksController < ApplicationController
   
   #privateでアクションではなく、このクラス内での使用を明示
   private
-  
-  def set_task
-    @task = current_user.tasks.find(params[:id])
-  end
   
   #Strong Parameter セキュリティ対策 送信されてきたデータのフィルタリング
   def task_params
